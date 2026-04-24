@@ -3,7 +3,7 @@
 
 ```html
 <script type="module">
-  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@releases/tag/v0.1.1';
+  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
   const count = domData({ n: 0 });
 
@@ -66,7 +66,7 @@ The engine underneath is a classic *dependency-tracking* loop: when a reactive f
 
 ```html
 <script type="module">
-  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@releases/tag/v0.1.1';
+  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 </script>
 ```
 
@@ -75,7 +75,7 @@ The engine underneath is a classic *dependency-tracking* loop: when a reactive f
 Grab [`el3.js`](./el3.js) and drop it anywhere in your project:
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 ```
 
 **Option 3 — Clone and explore examples**
@@ -97,7 +97,7 @@ The `examples/` folder contains standalone HTML files you can open directly — 
 ### Reactive data with `domData`
 
 ```js
-import { domData } from './el3.js';
+import { domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 const counter = domData({ count: 0 }, {
   increment: (data) => data.count++,
@@ -119,7 +119,7 @@ console.log(counter.data.count); // 1
 ### Building DOM with `el`
 
 ```js
-import { el } from './el3.js';
+import { el } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 // el(selector, props?, ...children)
 const btn = el('button.primary#go',
@@ -139,7 +139,7 @@ The selector shorthand (`tag.class#id`) keeps noise low. Props are plain objects
 **Wrap any prop value or child in a function** and El3 auto-tracks it. When the data it reads changes, only that piece of the DOM updates.
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 const store = domData({ count: 0 });
 
@@ -163,7 +163,7 @@ This is the rule beginners trip over most. When in doubt, wrap it in `() =>`.
 For lists, initialise `domData` with an **array** and pass it directly to `el` along with a template function:
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 const todos = domData([
   { id: 1, text: 'Buy oat milk' },
@@ -185,7 +185,7 @@ document.body.appendChild(list);
 
 > **Important distinction:** Array stores handle *structural* changes — adding, removing, and reordering items — with keyed diffing. If you also want individual *properties* on an item to update reactively (e.g. `item.text` changing in place), wrap those in functions too: `() => item.text`. A plain string `item.text` is captured at render time and won't update.
 
-El3 keys list items by `id`, then `key`, then falls back to index. Always give items stable `id` fields to avoid unnecessary DOM mutations on reorder.
+El3 keys list items by `id`, then falls back to index. Always give items stable `id` fields to avoid unnecessary DOM mutations on reorder.
 
 ---
 
@@ -208,7 +208,7 @@ El3 has no built-in router — and doesn't need one. The browser already has a r
 ### The minimal router store
 
 ```js
-import { domData } from './el3.js';
+import { domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 const router = domData(
   { path: location.pathname, query: new URLSearchParams(location.search) },
@@ -236,7 +236,7 @@ export default router;
 ### Rendering routes reactively
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 import router from './router.js';
 
 // Define your page components (just functions that return nodes)
@@ -312,7 +312,7 @@ function matchRoute(pattern, path) {
 Repeating the `onclick` / `preventDefault` pattern on every anchor gets tedious. Extract it:
 
 ```js
-import { el } from './el3.js';
+import { el } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 import router from './router.js';
 
 export const Link = (href, label, props = {}) =>
@@ -380,7 +380,7 @@ A component is a function. It takes props, closes over a store if needed, and re
 
 ```js
 // Card.js
-import { el } from './el3.js';
+import { el } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 export const Card = ({ title, body, footer }) =>
   el('div.card',
@@ -402,7 +402,7 @@ Children passed as props are just nodes — compose freely.
 For components that own their own state, create a `domData` store inside the function. Each call gets its own isolated store:
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 export const Accordion = ({ sections }) => {
   const state = domData({ open: null });
@@ -434,7 +434,7 @@ Two `Accordion` instances on the same page each have their own `state` — no sh
 Pass child content as props to get named slots — the same idea as Web Components slots or Vue's `<slot>`, but just function arguments:
 
 ```js
-import { el } from './el3.js';
+import { el } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 export const Modal = ({ title, children, footer, onclose }) =>
   el('div.modal-overlay', { onclick: onclose },
@@ -471,7 +471,7 @@ Modal({
 A higher-order component (HOC) is a function that takes a component function and returns a new one with added behaviour. Useful for cross-cutting concerns like loading states, error boundaries, or auth gating:
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 // Wraps any async-data component with a loading/error shell
 export const withAsync = (fetchFn, renderFn) => {
@@ -508,7 +508,7 @@ When deeply nested components need access to the same store, prop-drilling gets 
 
 ```js
 // context/theme.js
-import { domData } from '../el3.js';
+import { domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 export const theme = domData(
   { mode: 'light', accent: '#0077ff' },
@@ -518,7 +518,7 @@ export const theme = domData(
 );
 
 // DeepChild.js — no props needed, just import
-import { el } from '../el3.js';
+import { el } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 import { theme } from '../context/theme.js';
 
 export const ThemedButton = (label, onclick) =>
@@ -538,7 +538,7 @@ This is the El3 equivalent of React Context or Vue's `provide/inject` — withou
 When a component needs to delegate rendering of its inner content to the caller, pass a function instead of a node:
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 // VirtualList only renders items currently in view
 export const VirtualList = ({ items, rowHeight, renderItem }) => {
@@ -607,7 +607,7 @@ El3's no-build-step design makes it uniquely well suited for LLM-driven interfac
 A streaming LLM response is just a string that grows chunk by chunk. A reactive store + a watching text node is a perfect fit — each chunk appends to state, and only the text node re-renders.
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 const chat = domData(
   { messages: [], streaming: '' },
@@ -678,7 +678,7 @@ Because El3 requires no build step, an LLM can *generate El3 code as a string* a
 The pattern: prompt the LLM to return a self-contained El3 snippet → eval it in a sandboxed function → mount the result.
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 // Expose el and domData so generated code can use them
 window.__el3 = { el, domData };
@@ -741,7 +741,7 @@ The `oncreate` prop gives you the raw DOM node at creation time. Use it to hand 
 ### Chart.js
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 import Chart from 'https://cdn.jsdelivr.net/npm/chart.js/+esm';
 
 const store = domData({ values: [12, 40, 28, 65] });
@@ -774,7 +774,7 @@ document.body.appendChild(canvas);
 ### CodeMirror 6
 
 ```js
-import { el } from './el3.js';
+import { el } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 import { EditorView, basicSetup } from 'codemirror';
 
 let editor;
@@ -796,7 +796,7 @@ document.body.appendChild(container);
 ### Mapbox GL
 
 ```js
-import { el } from './el3.js';
+import { el } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 import mapboxgl from 'mapbox-gl';
 
 mapboxgl.accessToken = 'YOUR_TOKEN';
@@ -900,7 +900,7 @@ el('li', () => item.text)
 No. El3 is a plain ES module. Use `<script type="module">` in the browser and import directly from the CDN or a local file. No Webpack, Vite, or Rollup required.
 
 **How does keying work in lists?**
-El3 looks for `id` then `key` on each item, then falls back to index. Index-based keying works but causes unnecessary DOM mutations when items reorder. Always give list items stable `id` fields.
+El3 looks for `id` on each item, then falls back to index. Index-based keying works but causes unnecessary DOM mutations when items reorder. Always give list items stable `id` fields.
 
 **Can I use it with TypeScript?**
 The source ships without types. You can write a `.d.ts` shim or wrap the functions yourself, but there's no official typed version yet. PRs welcome.
@@ -1179,7 +1179,7 @@ A native `HTMLElement`. You can append it to the document with `document.body.ap
 A list that reacts to both structural changes and in-place property edits, with a sort control:
 
 ```js
-import { el, domData } from './el3.js';
+import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 export const SortableList = (initialItems) => {
   const items = domData(initialItems, {
@@ -1226,7 +1226,7 @@ Explicitly renders a list of items. While `el()` handles array stores automatica
 
 The data source for the list.
 
-- If an **ArrayStore**, `elist` performs keyed diffing based on `id`, `key`, or index.
+- If an **ArrayStore**, `elist` performs keyed diffing based on `id`, or index.
 - If a **plain Array**, it renders once and does not react to changes.
 
 **`templateFn(item, index, isSVG)`** — `function` — *required*
@@ -1301,7 +1301,7 @@ svg({ width: 200, height: 200, viewBox: '0 0 200 200' },
 A reactive donut chart built entirely with `svg` and `elist`. The chart reacts to changes in segment data without redrawing segments that haven't changed.
 
 ```js
-import { el, svg, elist, domData } from './el3.js';
+import { el, svg, elist, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 // Converts a list of { label, value, color } into SVG arc segments
 const polarToCartesian = (cx, cy, r, angleDeg) => {
@@ -1396,7 +1396,7 @@ chart.__store?.update(1, 45);
 A reactive sparkline (mini line chart) that reacts to a live-updating data store — useful for dashboards, metrics widgets, and monitoring UIs.
 
 ```js
-import { el, svg, domData } from './el3.js';
+import { el, svg, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs';
 
 export const SparklineChart = (initialValues, {
   width = 200,
@@ -1503,7 +1503,7 @@ The simplest possible reactive UI. Shows `domData`, `el`, and a function child.
 </head>
 <body>
 <script type="module">
-  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@releases/tag/v0.1.1';
+  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs'';
 
   const counter = domData({ count: 0 }, {
     inc: (s) => s.count++,
@@ -1553,7 +1553,7 @@ Shows array stores, `elist`, filtered reactive views, and conditional rendering.
 </head>
 <body>
 <script type="module">
-  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@releases/tag/v0.1.1';
+  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs'';
 
   const todos = domData(
     [
@@ -1650,7 +1650,7 @@ Shows hash-based routing, the `Link` helper, and reactive page swapping. Works o
 </head>
 <body>
 <script type="module">
-  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@releases/tag/v0.1.1';
+  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs'';
 
   // Hash router store
   const router = domData(
@@ -1761,7 +1761,7 @@ Shows the streaming pattern with a mock stream (replace `mockStream` with a real
 </head>
 <body>
 <script type="module">
-  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@releases/tag/v0.1.1';
+  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs'';
 
   const chat = domData(
     { messages: [], streaming: '', busy: false },
@@ -1864,7 +1864,7 @@ Shows the `withAsync` HOC, the slot pattern, and the context/theme pattern all w
 </head>
 <body>
 <script type="module">
-  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@releases/tag/v0.1.1';
+  import { el, domData } from 'https://cdn.jsdelivr.net/gh/houseofkodai/el3@v0.1.2/el3.min.mjs'';
 
   // --- Context: theme store (singleton) ---
   const theme = domData(
